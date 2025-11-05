@@ -1,4 +1,4 @@
-#1!/bin/bash
+#!/bin/bash
 set -e
 
 if ! command -v git &> /dev/null; then
