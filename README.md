@@ -11,9 +11,9 @@ cc-gi -o python,go     # only use local templates
 cc-gi -v python,go     # verbose
 ```
 
-## Install
+## Installation
 ```bash
-curl -sSL https://github.com/caml.cc/cc-gi/raw/main/install.sh | sudo bash
+curl -sSL https://github.com/caml.cc/cc-gi/raw/main/scripts/install.sh | sudo bash
 ```
 
 [MIT][LICENSE]
