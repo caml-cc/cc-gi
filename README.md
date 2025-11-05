@@ -16,6 +16,6 @@ cc-gi -v python,go     # verbose
 curl -sSL https://github.com/caml.cc/cc-gi/raw/main/scripts/install.sh | sudo bash
 ```
 
-[MIT][LICENSE]
+[MIT](LICENSE)
 
 > G.I., your government has abandoned you. They have ordered you to die. Don’t trust them. They lied to you, G.I.s, you know you cannot win this war.
