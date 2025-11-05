@@ -13,7 +13,7 @@ cc-gi -v python,go     # verbose
 
 ## Install
 ```bash
-curl -sSL https://gitlab.com/caml.cc/cc-tools/raw/main/install.sh | bash
+curl -sSL https://github.com/caml.cc/cc-gi/raw/main/install.sh | sudo bash
 ```
 
 [MIT][LICENSE]

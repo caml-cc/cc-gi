@@ -1,5 +1,7 @@
 package main
 
+import "cc-gi/internal/cli"
+
 func main() {
-	// This is a placeholder for the cc-gi command-line tool.
+	cli.Execute()
 }
