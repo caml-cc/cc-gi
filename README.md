@@ -1,6 +1,6 @@
 # cc-gi
 
-Command-line gitignore generator from [CAML.CC](https://caml.cc).
+Command-line gitignore generator from [caml.cc](https://caml.cc).
 
 Generates gitignore files locally or fetches templates from [gi.caml.cc](https://gi.caml.cc).
 
