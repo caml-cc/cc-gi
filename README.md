@@ -6,12 +6,16 @@ Generates gitignore files locally or fetches templates from [gi.caml.cc](https:/
 
 ## Usage
 ```bash
-cc-gi python,go        # generate gitignore
-cc-gi -o python,go     # only use local templates
-cc-gi -v python,go     # verbose
+cc-gi generate python go        # generate gitignore
+cc-gi -o generate python go     # only use local templates
+cc-gi -v generate python go     # verbose
+cc-gi clean                     # delete all local templates
 ```
 
 ## Installation
+### Requirements for installation
+- git
+- golang
 ```bash
 curl -sSL https://github.com/caml-cc/cc-gi/raw/main/scripts/install.sh | sudo bash
 ```
