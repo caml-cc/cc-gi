@@ -1,15 +1,17 @@
 #!/bin/bash
 set -e
 
-if ! command -v git &> /dev/null; then
+if ! command -v git &> /dev/null && ! [ -x "/bin/git" ]; then
     echo "Error: git is not installed."
     exit 1
 fi
 
-if ! command -v go &> /dev/null; then
-    echo "Error: Go is not installed."
+if ! command -v go &> /dev/null && ! [ -x "/usr/local/go/bin/go" ]; then
+    echo "Error: Go is not installed or not in PATH."
     exit 1
 fi
+
+export PATH=$PATH:/usr/local/go/bin
 
 BIN_DIR=/usr/local/bin
 RAND_STR=$(head -n 4096 /dev/urandom | openssl sha1 | awk '{print $2}')
