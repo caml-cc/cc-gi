@@ -12,13 +12,8 @@ func Execute() {
 	args := pflag.Args()
 
 	if len(args) == 0 {
-		fmt.Println("Usage: cc-gi [options] <command>")
-		fmt.Println("Options:")
-		fmt.Println("  -o, --offline    Use only offline templates")
-		fmt.Println("  -v, --verbose    Enable verbose output")
-		fmt.Println("Commands:")
-		fmt.Println("  generate")
-		return
+		pflag.Usage()
+		os.Exit(0)
 	}
 
 	if f.Verbose {
@@ -31,6 +26,11 @@ func Execute() {
 			fmt.Printf("Generating .gitignore... (offline=%t)\n", f.Offline)
 		}
 		Generate(f, args[1:])
+	case "clean":
+		if f.Verbose {
+			fmt.Println("Cleaning local templates...")
+		}
+		Clean(f, args[1:])
 	default:
 		fmt.Printf("Unknown command: %s\n", args[0])
 		os.Exit(1)

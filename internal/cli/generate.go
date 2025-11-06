@@ -17,15 +17,15 @@ func Generate(f *Flags, args []string) {
 		templatePath := templateDir + "/" + arg + ".gitignore"
 
 		if _, err := os.Stat(templatePath); os.IsNotExist(err) {
-			if f.Verbose {
-				fmt.Println("fetching " + arg + " from API")
-			}
-
 			if f.Offline {
 				if f.Verbose {
 					fmt.Println("skipping fetch for", arg)
 				}
 				continue
+			}
+			
+			if f.Verbose {
+				fmt.Println("fetching " + arg + " from API")
 			}
 
 			URL := "https://gi.caml.cc/" + arg
