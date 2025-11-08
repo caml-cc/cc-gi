@@ -1,15 +1,23 @@
 package cli
 
 import (
-	"fmt"
+	"cc-gi/internal/util"
 	"io"
 	"net/http"
 	"os"
 )
 
-func Generate(f *Flags, args []string) {
-	homeDir, _ := os.UserHomeDir()
-	templateDir := homeDir + "/.local/share/cc-gi/templates"
+func Generate(config util.Config, f *Flags, args []string) {
+	if len(args) == 0 {
+		util.WarnLog("no sub-command arguments given")
+		return
+	}
+
+	if f.Verbose {
+		util.InfoLog("Generating .gitignore... (offline=%t)", f.Offline)
+	}
+
+	templateDir := config.TemplateDir
 
 	templates := make([][]byte, 0)
 
@@ -19,20 +27,23 @@ func Generate(f *Flags, args []string) {
 		if _, err := os.Stat(templatePath); os.IsNotExist(err) {
 			if f.Offline {
 				if f.Verbose {
-					fmt.Println("skipping fetch for", arg)
+					util.DebugLog("skipping fetch for %s", arg)
 				}
 				continue
 			}
-			
+
 			if f.Verbose {
-				fmt.Println("fetching " + arg + " from API")
+				util.InfoLog("fetching %s from API", arg)
 			}
 
 			URL := "https://gi.caml.cc/" + arg
 			resp, err := http.Get(URL)
 			if err != nil || resp.StatusCode != http.StatusOK {
 				if f.Verbose {
-					fmt.Println("failed to fetch template for", arg)
+					if f.Offline {
+						util.DebugLog("failed to fetch template for %s", arg)
+					}
+					util.WarnLog("failed to fetch template for %s", arg)
 				}
 				continue
 			}
@@ -49,13 +60,16 @@ func Generate(f *Flags, args []string) {
 
 			templates = append(templates, content)
 		} else {
+			util.InfoLog("reading %s", arg+".gitignore")
+
 			content, err := os.ReadFile(templatePath)
 			if err != nil {
 				if f.Verbose {
-					fmt.Println("failed to read local template: ", arg)
+					util.WarnLog("failed to read local template for", arg)
 				}
 				continue
 			}
+			util.InfoLog("appending %s to .gitignore", arg+".gitignore")
 			templates = append(templates, content)
 		}
 	}
@@ -71,12 +85,12 @@ func Generate(f *Flags, args []string) {
 	outputFile := ".gitignore"
 	if err := os.WriteFile(outputFile, combinedContent, 0644); err != nil {
 		if f.Verbose {
-			fmt.Println("Failed to write .gitignore file:", err)
+			util.ErrorLog("Failed to write .gitignore file: %v", err)
 		}
 		return
 	}
 
 	if f.Verbose {
-		fmt.Println(".gitignore file generated successfully")
+		util.InfoLog(".gitignore file generated successfully")
 	}
 }

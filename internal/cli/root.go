@@ -1,38 +1,37 @@
 package cli
 
 import (
-	"fmt"
+	"cc-gi/internal/util"
 	"os"
 
 	"github.com/spf13/pflag"
 )
 
-func Execute() {
-	f := ParseFlags()
+func Execute(f *Flags, config util.Config) {
 	args := pflag.Args()
 
 	if len(args) == 0 {
+		util.WarnLog("No arguments provided")
 		pflag.Usage()
 		os.Exit(0)
 	}
 
+	util.InfoLog("Command: %s, Arguments: %v", args[0], args[1:])
+
 	if f.Verbose {
-		fmt.Println("Verbose mode enabled")
+		util.InfoLog("Verbose mode enabled")
 	}
 
 	switch args[0] {
 	case "generate":
-		if f.Verbose {
-			fmt.Printf("Generating .gitignore... (offline=%t)\n", f.Offline)
-		}
-		Generate(f, args[1:])
+		Generate(config, f, args[1:])
 	case "clean":
 		if f.Verbose {
-			fmt.Println("Cleaning local templates...")
+			util.InfoLog("Cleaning local templates...")
 		}
-		Clean(f, args[1:])
+		Clean(config)
 	default:
-		fmt.Printf("Unknown command: %s\n", args[0])
+		util.ErrorLog("Unknown command: %s", args[0])
 		os.Exit(1)
 	}
 }

@@ -1,7 +1,14 @@
 package main
 
-import "cc-gi/internal/cli"
+import (
+	"cc-gi/internal/cli"
+	"cc-gi/internal/util"
+)
 
 func main() {
-	cli.Execute()
+	f := cli.ParseFlags()
+	util.SetVerbose(f.Verbose)
+
+	config := util.LoadConfig()
+	cli.Execute(f, *config)
 }
